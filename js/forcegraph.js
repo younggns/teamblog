@@ -48,7 +48,7 @@ var force = d3.layout.force()
   .charge(-300)
   .on("tick", tick)
   .start();
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#graph-container").append("svg")
   .attr("width", width)
   .attr("height", height)
   .append("g");
