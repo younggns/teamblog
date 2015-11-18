@@ -1,0 +1,39 @@
+.link {
+  fill: none;
+  stroke: #bbb;
+  stroke-width: 1.5px;
+}
+.node circle {
+  fill: #ccc;
+  stroke: "white";
+  stroke-width: 3px;
+}
+text {
+  font: 15px sans-serif;
+  pointer-events: none;
+}
+#graph-container{
+  margin: auto;
+  width: 90%;
+}
+
+body {
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;**/
+
+}
+
+header {
+  text-align: center;
+  background-color: red;
+  width: 100%;
+}
+
+footer {
+  background-color: red;
+  height: 50px;
+  text-align: center;
+}

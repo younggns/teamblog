@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Login</h1>
+  <form action="" method="post" name="login">
+    {{ form.hidden_tag() }}
+    <input type="text" name="username">
+    <br>
+    Password:<br>
+    <input type="text" name="password">
+    <br><br>
+    <input type="submit" value="Login">
+  </form>
+
+{% endblock %}
