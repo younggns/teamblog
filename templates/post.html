@@ -5,22 +5,31 @@
         <div class="blog-post">
               <h3 class="blog-post-title">{{ post.title }}</h3><hr>
               <p class="blog-post-meta">{{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+              <p>Category: {{ post.category }}</p>
               <p>{{ post.text|safe }}</p>
         </div>
+<hr>
+
+{% for comment in comments %}
+  Comments:<br>
+  <div class="panel panel-default">
+    <div class="panel-body">
+    {{ comment.reply|safe }}
+    </div>
+  </div>
+{% endfor %}
+
+<hr>
 
       {% if session.logged_in %}
         <div>
-          <a href="{{ url_for('delete_entry', id=post.id) }}">Delete</a>
+          <a href="{{ url_for('delete_entry', id=post.id) }}">Delete Post</a>
+          <br>
+          <a href="{{ url_for('edit', id=post.id )}}">Edit Post</a>
         </div><br>
       {% endif %}
 
-      {% for comment in comments %}
-        <div class="panel panel-default">
-          <div class="panel-body">
-          {{ comment.reply|safe }}
-          </div>
-        </div>
-      {% endfor %}
+
 
     <form action="{{ url_for('post', id=post.id) }}" method=post class=comment>
       <dl>
