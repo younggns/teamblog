@@ -40,7 +40,8 @@ var nodes = [
   {"name":"Team blog", "group":5, "value":8},
   {"name":"Rachmaninov", "group":3, "value":8} //18
 ];
-var width = 960, height = 500;
+var width = document.getElementById('graph-container').offsetWidth;
+var height = width*3/4;
 var force = d3.layout.force()
   .nodes(nodes)
   .links(links)
@@ -50,8 +51,7 @@ var force = d3.layout.force()
   .on("tick", tick)
   .start();
 var svg = d3.select("#graph-container").append("svg")
-  .attr("width", width)
-  .attr("height", height)
+  .attr("viewBox", "0 0 "+width+" "+height)
   .append("g");
 var link = svg.selectAll(".link")
   .data(force.links())
