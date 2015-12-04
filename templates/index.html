@@ -19,8 +19,6 @@
 
   </div>
 
-<div id="bloop">
-  <script src='http://d3js.org/d3.v3.min.js'></script>
 
   <script>
   var nodes = [
@@ -29,15 +27,12 @@
         {"name": {{ entry.category }}, "group":1, "value":15},
       {% elif entry.category == "Music" %}
         {"name": {{ entry.category }}, "group":1, "value":15}
-
-
       {% endif %}
     {% endfor %}
 ];
 
 
 </script>
-</div>
 
 
 
