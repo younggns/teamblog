@@ -1,4 +1,5 @@
 import os
+import sys
 from datetime import datetime
 from math import ceil
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -7,6 +8,8 @@ from flask.ext.wtf import Form
 from wtforms import StringField, TextAreaField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Length, Required
 
+reload(sys)
+sys.setdefaultencoding("utf-8")
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
