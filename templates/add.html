@@ -2,13 +2,27 @@
 {% block body %}
   {% if session.logged_in %}
   <script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
-    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+
+    <form action="{{ url_for('add_entry') }}" method='post' class='add-entry'>
       <dl>
         <dt>Title:
-        <dd><input type=text size=30 name=title>
+        <dd><input type=text size=30 name=title required>
         <dt>Text:
         <dd><textarea name=text id="ckeditor" rows=5 cols=40></textarea>
           <script>CKEDITOR.replace( 'ckeditor' );</script>
+        <br><dt>Category:
+          <dd>
+        <dd><select name="category">
+          <option value=""></option>
+          <option value="Music">Music</option>
+          <option value="Movies">Movies</option>
+          <option value="HCI">HCI</option>
+          {% for post in posts %}
+          <option value="{{ post.title }}">{{ post.title }}</option>
+          {% endfor %}
+
+        </select>
+          <br><br>
         <dd><input type=submit value=Submit>
       </dl>
     </form>

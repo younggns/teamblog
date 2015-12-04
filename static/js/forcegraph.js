@@ -18,6 +18,7 @@ var links = [
   {source: 15, target: 16},
   {source: 15, target: 17}
 ];
+
 var nodes = [
   {"name":"Movie", "group":1, "value":15, "uri":"http://www.naver.com"},
   {"name":"Inception", "group":2, "value":10},

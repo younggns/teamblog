@@ -4,16 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Miniblog">
-    <meta name="author" content="Sicong Liu">
 
-    <title>Miniblog</title>
+    <title>Blog</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <!-- Custom styles for this template -->
-    <link href="{{ url_for('static', filename='css/blog.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 
   </head>
@@ -23,12 +20,13 @@
     <div class="blog-masthead">
       <div class="container">
         <nav class="blog-nav">
-          <a class="blog-nav-item active" href="{{ url_for('show_entries') }}">Home</a>
+          <div class="navlink">
+          <a href="{{ url_for('default') }}" {% if name =="index" %} class="blog-nav-item active" {% endif %}>Home</a>
           {% if not session.logged_in %}
-          <a class="blog-nav-item" href="{{ url_for('login') }}">Log in</a>
+          <a href="{{ url_for('login') }}" {% if name =="login" %} class="blog-nav-item active" {% endif %}>Log In</a>
           {% else %}
-          <a class="blog-nav-item" href="{{ url_for('add_entry') }}">Post</a>
-          <a class="blog-nav-item" href="{{ url_for('logout') }}">Log out</a>
+          <a href="{{ url_for('add_entry') }}" {% if name =="add" %} class="blog-nav-item active" {% endif %}>Create Post</a>
+          <a class="blog-nav-item" href="{{ url_for('logout') }}">Log out</a></div>
           {% endif %}
         </nav>
       </div>
@@ -47,10 +45,10 @@
           {% endfor %}
 
 
-{% block body %}{% endblock %}
+{% block body %}{% endblock %}</div>
 
 <footer class="footer-distributed">
-    {% extends "footer.html" %}
+    {% include "footer.html" %}
   </footer>
 
 
