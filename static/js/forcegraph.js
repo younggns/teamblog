@@ -1,49 +1,54 @@
 var color = d3.scale.category20();
 var links = [
-  {source: 0, target: 1},
-  {source: 0, target: 2},
-  {source: 0, target: 3},
-  {source: 4, target: 5},
-  {source: 5, target: 18},
-  {source: 5, target: 6},
-  {source: 6, target: 1},
-  {source: 4, target: 7},
-  {source: 7, target: 8},
-  {source: 4, target: 9},
-  {source: 10, target: 11},
-  {source: 11, target: 12},
-  {source: 11, target: 13},
-  {source: 11, target: 14},
-  {source: 10, target: 15},
-  {source: 15, target: 16},
-  {source: 15, target: 17}
+  {source: "Movie", target: "Inception"},
+  {source: "Movie", target: "Tazza"},
+  {source: "Movie", target: "Birdman"},
+  // {source: 4, target: 5},
+  // {source: 5, target: 18},
+  // {source: 5, target: 6},
+  // {source: 6, target: 1},
+  // {source: 4, target: 7},
+  // {source: 7, target: 8},
+  // {source: 4, target: 9},
+  // {source: 10, target: 11},
+  // {source: 11, target: 12},
+  // {source: 11, target: 13},
+  // {source: 11, target: 14},
+  // {source: 10, target: 15},
+  // {source: 15, target: 16},
+  // {source: 15, target: 17}
 ];
 
-var nodes = [
-  {"name":"Movie", "group":1, "value":15, "uri":"http://www.naver.com"},
-  {"name":"Inception", "group":2, "value":10},
-  {"name":"Tazza", "group":2, "value":10},
-  {"name":"Birdman", "group":2, "value":10},
-  {"name":"Music", "group":1, "value":15},
-  {"name":"Classic", "group":3, "value":10},
-  {"name":"Hans Zimmer", "group":3, "value":8},
-  {"name":"Hip-hop", "group":3, "value":10},
-  {"name":"Dynamic Duo", "group":3, "value":8},
-  {"name":"K-pop", "group":3, "value":8},
-  {"name":"HCI", "group":1, "value":15},
-  {"name":"Data visualization", "group":4, "value":10},
-  {"name":"Danchew", "group":4, "value":8},
-  {"name":"Planit", "group":4, "value":8},
-  {"name":"Sawtooth chart", "group":4, "value":8},
-  {"name":"Web programming", "group":5, "value":10},
-  {"name":"Portfolio", "group":5, "value":8},
-  {"name":"Team blog", "group":5, "value":8},
-  {"name":"Rachmaninov", "group":3, "value":8} //18
-];
+// var nodes = [
+//   {"name":"Movie", "group":1, "value":15, "uri":"http://www.naver.com"},
+//   {"name":"Inception", "group":2, "value":10},
+//   {"name":"Tazza", "group":2, "value":10},
+//   // {"name":"Birdman", "group":2, "value":10},
+//   // {"name":"Music", "group":1, "value":15},
+//   // {"name":"Classic", "group":3, "value":10},
+//   // {"name":"Hans Zimmer", "group":3, "value":8},
+//   // {"name":"Hip-hop", "group":3, "value":10},
+//   // {"name":"Dynamic Duo", "group":3, "value":8},
+//   // {"name":"K-pop", "group":3, "value":8},
+//   // {"name":"HCI", "group":1, "value":15},
+//   // {"name":"Data visualization", "group":4, "value":10},
+//   // {"name":"Danchew", "group":4, "value":8},
+//   // {"name":"Planit", "group":4, "value":8},
+//   // {"name":"Sawtooth chart", "group":4, "value":8},
+//   // {"name":"Web programming", "group":5, "value":10},
+//   // {"name":"Portfolio", "group":5, "value":8},
+//   // {"name":"Team blog", "group":5, "value":8},
+//   // {"name":"Rachmaninov", "group":3, "value":8} //18
+// ];
 var width = document.getElementById('graph-container').offsetWidth;
 var height = width*3/4;
+var nodes={};
+links.forEach(function(link) {
+  link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+  link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+});
 var force = d3.layout.force()
-  .nodes(nodes)
+  .nodes(d3.values(nodes))
   .links(links)
   .size([width, height])
   .linkDistance(60)
