@@ -65,11 +65,14 @@ def default():
 def post(id):
     post = Post.query.get_or_404(id)
     comments = post.comments.all()
+    page=request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.id.desc()).paginate(page,per_page=app.config['PER_PAGE'],error_out=False)
+    entries=pagination.items
     if request.method == 'POST':
         addcomments = Comment(reply=request.form['reply'], post=post)
         db.session.add(addcomments)
         return redirect(url_for('default'))
-    return render_template('post.html', name="index", post=post, comments=comments)
+    return render_template('post.html', name="index", post=post, comments=comments, entries=entries, pagination=pagination)
 
 
 

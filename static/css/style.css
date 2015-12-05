@@ -222,3 +222,8 @@ text {
   margin: auto;
   width: 90%;
 }
+
+.zoom-icon{
+  cursor: pointer;
+  margin-bottom: 5px;
+}

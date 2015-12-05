@@ -5,10 +5,13 @@
         <div class="blog-post">
               <h3 class="blog-post-title">{{ post.title }}</h3><hr>
               <p class="blog-post-meta">{{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
-              <p>Category: {{ post.category }}</p>
               <p>{{ post.text|safe }}</p>
         </div>
 <hr>
+  <div id="post-graph-container">
+    <div class="zoom-icon" id="post-zoomin" ><i class="fa fa-lg fa-search-plus"></i></div>
+    <div class="zoom-icon" id="post-zoomout" ><i class="fa fa-lg fa-search-minus"></i></div>
+  </div>
 
 {% for comment in comments %}
   Comments:<br>
@@ -40,4 +43,175 @@
     </form>
     </div>
 </div>
+
+<script>
+  //Processing hashtags in each text
+  function findHashtags(searchText){
+    var regexp = /\B\#\w\w+\b/g
+    var result = searchText.match(regexp);
+    result_list = [];
+    if (result) {
+      var num_of_hashtags = result.length;
+      for(var i=0;i<num_of_hashtags;i++) {
+        var word_length = result[i].length;
+        var hash_content = result[i].substring(1, word_length);
+        {% for entry in entries %}
+        if ( "{{ entry.title }}" == hash_content) {
+          result_list.push(hash_content);
+        }
+        {% endfor %}
+      }
+      return result_list
+    }
+    else {
+      return false;
+    }
+  }
+
+  //Making links based on hashtags
+  var links = [];
+  {% for entry in entries %}
+    var hash_list = findHashtags( {{ entry.text|tojson|safe }} );
+    var default_uri = window.location.href;
+    var source_uri = default_uri + "post/"+{{entry.id}};
+    if (hash_list.length>0) {
+      var num_of_hashtags = hash_list.length;
+      for(var i=0;i<num_of_hashtags;i++) {
+        links.push({
+          source: "{{entry.title}}",
+          target: hash_list[i]
+        });
+      }
+    }
+    else {
+      links.push({
+        source: "{{entry.title}}",
+        target: "{{entry.title}}"
+      });
+    }
+  {% endfor %}
+
+  //Creating nodes based on links
+  var nodes={};
+  links.forEach(function(link) {
+    link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+    link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+  });
+
+  //Putting properties to each node
+  for (var node in nodes) {
+    {% for entry in entries %}
+    var cur_uri = window.location.protocol + "//" + window.location.host + "/post/" + {{entry.id}};
+    var cat = "{{entry.category}}";
+    var text_len = {{ entry.text|tojson|safe }}.length;
+    if (node == "{{entry.title}}"){
+      nodes[node].uri = cur_uri;
+      nodes[node].color = cat;
+      if (text_len<100) {
+        nodes[node].value = 8;
+      }
+      else if(text_len<1000) {
+        nodes[node].value = 12;
+      }
+      else {
+        nodes[node].value = 16;
+      }
+    }
+    {% endfor %}
+  }
+
+  //D3 visualization
+  var width = document.getElementById('post-graph-container').offsetWidth;
+  var height = width*1/2;
+  var zoomfactor = 1;
+  var zoomlistener = d3.behavior.zoom()
+    .on("zoom", redraw);
+  var force = d3.layout.force()
+    .nodes(d3.values(nodes))
+    .links(links)
+    .size([width, height])
+    .linkDistance(60)
+    .charge(-300)
+    .on("tick", tick)
+    .start();
+  var svg = d3.select("#post-graph-container").append("svg")
+    .attr("viewBox", "0 0 "+width+" "+height)
+    .append("g");
+  var link = svg.selectAll(".link")
+    .data(force.links())
+    .enter().append("line")
+    .attr("class", "link");
+  var node = svg.selectAll(".node")
+    .data(force.nodes())
+    .enter().append("g")
+    .attr("class", "node")
+    .attr("link", function(d) { return d.uri; })
+    .on("mouseover", mouseover)
+    .on("mouseout", mouseout)
+    .on("click", click)
+    .call(force.drag);
+  node.append("circle")
+    .style("fill", function(d) { return d.color; })
+    .style("stroke", function(d) {
+      if("{{post.title}}"==d.name) { return "black"; }
+      else { return "white"; } })
+    .attr("selected", function(d) {
+      if("{{post.title}}"==d.name) { return 1; }
+      else { return 0; } })
+    .attr("cursor", function(d) {
+      if("{{post.title}}"==d.name) { return "pointer"; }
+      else { return "default"; } })
+    .attr("r", function(d) { return d.value; });
+  node.append("text")
+    .attr("x", 12)
+    .attr("dy", ".35em")
+    .text(function(d) { return d.name; })
+    .style("visibility", "hidden");
+  d3.select("#post-zoomin").on("click", function (){
+      zoomfactor += 0.2;
+      zoomlistener.scale(zoomfactor).event(d3.select("#post-graph-container"));
+  });
+  d3.select("#post-zoomout").on("click", function (){
+      zoomfactor -= 0.2;
+      zoomlistener.scale(zoomfactor).event(d3.select("#post-graph-container"));
+  });
+  function tick() {
+    link
+      .attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+    node
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    }
+  function mouseover() {
+    d3.selectAll("circle").style("opacity", 0.5);
+    d3.select(this).select("circle").style("opacity", 1);
+    d3.select(this).select("text").style("visibility", "visible");
+    }
+  function mouseout() {
+    d3.selectAll("circle").style("opacity", 1);
+    d3.select(this).select("text").style("visibility", "hidden");
+    }
+  function click(){
+    var cur_state = d3.select(this).select("circle").attr("selected");
+    if(cur_state==1){
+      d3.select(this).select("circle").attr("selected", 0);
+      window.location.href = this.getAttribute("link");
+    }
+    else{
+      d3.selectAll("circle").style("stroke", "white");
+      d3.selectAll("circle").attr("cursor", "default");
+      d3.selectAll("circle").attr("selected", 0);
+      d3.select(this).select("circle").style("stroke", "black");
+      d3.select(this).select("circle").attr("selected", 1);
+      d3.select(this).select("circle").attr("cursor", "pointer");
+    }
+  }
+  function redraw(){
+    var x_trans = width/2;
+    var y_trans = height/2;
+    svg.attr("transform", "translate(" + -x_trans*(d3.event.scale-1) +","+ -y_trans*(d3.event.scale-1)+") scale(" + d3.event.scale +")" );
+  }
+</script>
 {% endblock %}
