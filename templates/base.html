@@ -24,10 +24,11 @@
         <nav class="blog-nav">
           <div class="navlink">
           <a href="{{ url_for('default') }}" {% if name =="index" %} class="blog-nav-item active" {% endif %}>Home</a>
+          <a href="{{ url_for('show_posts') }}" {% if name =="posts" %} class="blog-nav-item active" {% endif %}>View Posts</a>
           {% if not session.logged_in %}
           <a href="{{ url_for('login') }}" {% if name =="login" %} class="blog-nav-item active" {% endif %}>Log In</a>
           {% else %}
-          <a href="{{ url_for('add_entry') }}" {% if name =="add" %} class="blog-nav-item active" {% endif %}>Create Post</a>
+          <a href="{{ url_for('add_entry') }}" {% if name =="add" or name == "edit" %} class="blog-nav-item active" {% endif %}>Create Post</a>
           <a class="blog-nav-item" href="{{ url_for('logout') }}">Log out</a></div>
           {% endif %}
         </nav>
@@ -36,18 +37,12 @@
 
     <div class="container">
 
-      <div class="blog-header">
-        <h1 class="blog-title">Miniblog</h1>
-        <p class="lead blog-description">Powered by Flask and SQLAlchemy.</p>
-      </div>
-
-
           {% for message in get_flashed_messages() %}
           <div class="alert alert-info">{{ message }}</div>
           {% endfor %}
 
 
-{% block body %}{% endblock %}</div>
+<main class="site-content">{% block body %}{% endblock %}</div></main>
 
 <footer class="footer-distributed">
     {% include "footer.html" %}

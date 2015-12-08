@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
-
-<div id="graph-container">
-<script type="text/javascript" src= "{{ url_for('static', filename='js/forcegraph.js') }}"></script>
-</div>
+  <br>
+  <br>
   <div class="row">
       <div class="col-sm-8 blog-main">
          {% for entry in entries %}
@@ -18,27 +16,5 @@
         </div>
 
   </div>
-
-<div id="bloop">
-  <script src='http://d3js.org/d3.v3.min.js'></script>
-
-  <script>
-  var nodes = [
-    {% for entry in entries %}
-      {% if entry.category == "Movies" %}
-        {"name": {{ entry.category }}, "group":1, "value":15},
-      {% elif entry.category == "Music" %}
-        {"name": {{ entry.category }}, "group":1, "value":15}
-
-
-      {% endif %}
-    {% endfor %}
-];
-
-
-</script>
-</div>
-
-
 
 {% endblock %}
