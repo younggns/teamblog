@@ -8,6 +8,7 @@ body {
 
 .site-content {
   flex: 1;
+  margin-bottom: 30px;
 }
 
 h1, .h1,
@@ -107,7 +108,9 @@ a.blog-nav-item:visited {
   line-height: 1.5;
 }
 
+#content{
 
+}
 
 
 /* Pagination */
@@ -143,7 +146,12 @@ a.blog-nav-item:visited {
  * Footer
  */
 
+ #footer{
+
+ }
  .footer-distributed{
+   bottom:0;
+   position: relative;
  	background-color: #292c2f;
  	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
  	box-sizing: border-box;
@@ -220,5 +228,6 @@ text {
 
 .zoom-icon{
   cursor: pointer;
-  margin-bottom: 5px;
+  margin-right: 5px;
+  display: inline-block;
 }

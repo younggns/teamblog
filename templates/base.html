@@ -23,19 +23,23 @@
       <div class="container">
         <nav class="blog-nav">
           <div class="navlink">
-          <a href="{{ url_for('default') }}" {% if name =="index" %} class="blog-nav-item active" {% endif %}>Home</a>
-          <a href="{{ url_for('show_posts') }}" {% if name =="posts" %} class="blog-nav-item active" {% endif %}>View Posts</a>
+          <a href="{{ url_for('default') }}" {% if name =="index" %} class="blog-nav-item active"
+          {% else %} class="blog-nav-item" {% endif %}>Home</a>
+          <a href="{{ url_for('show_posts') }}" {% if name =="posts" %} class="blog-nav-item active"
+          {% else %} class="blog-nav-item" {% endif %}>View Posts</a>
           {% if not session.logged_in %}
-          <a href="{{ url_for('login') }}" {% if name =="login" %} class="blog-nav-item active" {% endif %}>Log In</a>
+          <a href="{{ url_for('login') }}" {% if name =="login" %} class="blog-nav-item active"
+          {% else %} class="blog-nav-item" {% endif %}>Log In</a>
           {% else %}
-          <a href="{{ url_for('add_entry') }}" {% if name =="add" or name == "edit" %} class="blog-nav-item active" {% endif %}>Create Post</a>
+          <a href="{{ url_for('add_entry') }}" {% if name =="add" or name == "edit" %} class="blog-nav-item active"
+          {% else %} class="blog-nav-item" {% endif %}>Create Post</a>
           <a class="blog-nav-item" href="{{ url_for('logout') }}">Log out</a></div>
           {% endif %}
         </nav>
       </div>
     </div>
 
-    <div class="container">
+    <div class="container" id="content">
 
           {% for message in get_flashed_messages() %}
           <div class="alert alert-info">{{ message }}</div>
@@ -44,7 +48,7 @@
 
 <main class="site-content">{% block body %}{% endblock %}</div></main>
 
-<footer class="footer-distributed">
+<footer class="footer-distributed" id="footer">
     {% include "footer.html" %}
   </footer>
 
