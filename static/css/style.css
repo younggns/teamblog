@@ -22,6 +22,9 @@ h6, .h6 {
   font-weight: normal;
   color: #333;
 }
+p{
+  font-family: "sinanova";
+}
 
 @media (min-width: 1200px) {
   .container {
@@ -41,6 +44,7 @@ h6, .h6 {
   padding: 10px;
   font-weight: 500;
   color: #fff;
+  font-family: "exo";
 }
 
 
@@ -92,10 +96,12 @@ a.blog-nav-item:visited {
   margin-bottom: 0;
   font-size: 60px;
   font-weight: normal;
+  font-family: "bebas";
 }
 .blog-description {
   font-size: 20px;
-  color: #999;
+  color: #bbb;
+  font-family: "lobster";
 }
 
 
@@ -104,7 +110,7 @@ a.blog-nav-item:visited {
  */
 
 .blog-main {
-  font-size: 18px;
+  font-size: 24px;
   line-height: 1.5;
 }
 
@@ -135,11 +141,14 @@ a.blog-nav-item:visited {
 }
 .blog-post-title {
   margin-bottom: 5px;
-  font-size: 40px;
+  font-size: 34px;
+  font-family: "questa" !important;
 }
 .blog-post-meta {
   margin-bottom: 20px;
   color: #999;
+  font-family: "ubuntu";
+  font-size: 15px;
 }
 
 /*
@@ -231,3 +240,48 @@ text {
   margin-right: 5px;
   display: inline-block;
 }
+
+
+ /* Fonts */
+ @font-face{
+   font-family: League-Gothic;
+   src: url('../fonts/League-Gothic/LeagueGothic-Regular.otf');
+ }
+ @font-face{
+   font-family: ubuntu;
+   src: url('../fonts/ubuntu-font-family-0.83/Ubuntu-R.ttf');
+ }
+ @font-face{
+   font-family: bebas;
+   src: url('../fonts/bebas_neue/BebasNeue.otf');
+ }
+ @font-face{
+   font-family: lobster;
+   src: url('../fonts/Lobster/Lobster_1.3.otf');
+ }
+ @font-face{
+   font-family: nobile;
+   src: url('../fonts/Nobile/Nobile-Regular.ttf');
+ }
+ @font-face{
+   font-family: exo;
+   src: url('../fonts/exo/Exo-Regular.otf');
+ }
+ @font-face{
+   font-family: 'questa';
+   src: url('../fonts/Questa_Regular-Webfont/Webfonts/questa_regular_macroman/2-Questa_Regular-webfont.eot');
+   src: url('../fonts/Questa_Regular-Webfont/Webfonts/questa_regular_macroman/2-Questa_Regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Questa_Regular-Webfont/Webfonts/questa_regular_macroman/2-Questa_Regular-webfont.woff2') format('woff2'),
+        url('../fonts/Questa_Regular-Webfont/Webfonts/questa_regular_macroman/2-Questa_Regular-webfont.woff') format('woff'),
+        url('../fonts/Questa_Regular-Webfont/Webfonts/questa_regular_macroman/2-Questa_Regular-webfont.ttf') format('truetype'),
+        url('../fonts/Questa_Regular-Webfont/Webfonts/questa_regular_macroman/2-Questa_Regular-webfont.svg#questa') format('svg');
+ }
+ @font-face{
+   font-family: 'sinanova';
+   src: url('../fonts/Sina_Nova_Regular-Webfont/Webfonts/sinanova_regular_macroman/SinaNovaReg-webfont.eot');
+   src: url('../fonts/Sina_Nova_Regular-Webfont/Webfonts/sinanova_regular_macroman/SinaNovaReg-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Sina_Nova_Regular-Webfont/Webfonts/sinanova_regular_macroman/SinaNovaReg-webfont.woff2') format('woff2'),
+        url('../fonts/Sina_Nova_Regular-Webfont/Webfonts/sinanova_regular_macroman/SinaNovaReg-webfont.woff') format('woff'),
+        url('../fonts/Sina_Nova_Regular-Webfont/Webfonts/sinanova_regular_macroman/SinaNovaReg-webfont.ttf') format('truetype'),
+        url('../fonts/Sina_Nova_Regular-Webfont/Webfonts/sinanova_regular_macroman/SinaNovaReg-webfont.svg#questa') format('svg');
+ }
