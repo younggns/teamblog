@@ -24,16 +24,16 @@
         <nav class="blog-nav">
           <div class="navlink">
           <a href="{{ url_for('default') }}" {% if name =="index" %} class="blog-nav-item active"
-          {% else %} class="blog-nav-item" {% endif %}>Home</a>
+          {% else %} class="blog-nav-item" {% endif %}>HOME</a>
           <a href="{{ url_for('show_posts') }}" {% if name =="posts" %} class="blog-nav-item active"
-          {% else %} class="blog-nav-item" {% endif %}>View Posts</a>
+          {% else %} class="blog-nav-item" {% endif %}>POSTS</a>
           {% if not session.logged_in %}
           <a href="{{ url_for('login') }}" {% if name =="login" %} class="blog-nav-item active"
-          {% else %} class="blog-nav-item" {% endif %}>Log In</a>
+          {% else %} class="blog-nav-item" {% endif %}>LOG IN</a>
           {% else %}
           <a href="{{ url_for('add_entry') }}" {% if name =="add" or name == "edit" %} class="blog-nav-item active"
-          {% else %} class="blog-nav-item" {% endif %}>Create Post</a>
-          <a class="blog-nav-item" href="{{ url_for('logout') }}">Log out</a></div>
+          {% else %} class="blog-nav-item" {% endif %}>CREATE</a>
+          <a class="blog-nav-item" href="{{ url_for('logout') }}">LOG OUT</a></div>
           {% endif %}
         </nav>
       </div>
