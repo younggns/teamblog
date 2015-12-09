@@ -118,6 +118,20 @@ a.blog-nav-item:visited {
 
 }
 
+/*
+ * Contact page
+ */
+ .contact-title {
+   margin-top: 30px;
+   margin-bottom: 0;
+   font-size: 50px;
+   font-weight: normal;
+   font-family: "League-Gothic";
+ }
+ .form-section{
+   padding-top: 10px;
+   padding-bottom: 10px;
+ }
 
 /* Pagination */
 .pager {
