@@ -5,6 +5,8 @@ from math import ceil
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask import Flask, request, session, redirect, url_for, render_template, flash
 from flask.ext.wtf import Form
+from forms import ContactForm
+from flask.ext.mail import Message, Mail
 
 
 reload(sys)
@@ -12,6 +14,8 @@ sys.setdefaultencoding("utf-8")
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
+
+app.secret_key = 'WebDesign'
 
 '''Configuration - Debug can be removed for production use'''
 app.config.update(dict(
@@ -21,12 +25,20 @@ app.config.update(dict(
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True,
     USERNAME='admin',
     PASSWORD='default',
-    PER_PAGE=10
+    PER_PAGE=10,
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT = 587,
+    MAIL_USE_TLS = True,
+    MAIL_USE_SSL = False,
+    MAIL_USERNAME = 'umsiwebdesign@gmail.com',
+    MAIL_PASSWORD = '105sstate',
 ))
 
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 db = SQLAlchemy(app)
+
+mail = Mail(app)
 
 
 '''Data model - one (Post) to many (Comment)'''
@@ -146,6 +158,22 @@ def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
     return redirect(url_for('default'))
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+  form = ContactForm()
+  form2 = ContactForm()
+
+  if request.method == 'POST':
+  	msg = Message("Hello From Flask", sender=request.form.get('email'), recipients=["younggns@umich.edu"])
+  	msg2 = Message("The mail has been successfully sent", sender="younggns@umich.edu", recipients=[request.form.get('email')])
+  	mail.send(msg)
+  	mail.send(msg2)
+  	flash('Information sent!')
+  	return redirect(url_for('contact'))
+
+  elif request.method == 'GET':
+    return render_template('contact.html', form=form)
 
 @app.errorhandler(404)
 def pageNotFound(e):
