@@ -3,7 +3,7 @@
 			<div class="footer-left">
 
 				<p class="footer-links">
-					<a href="">Home</a>
+					<a href="{{ url_for('default') }}">Home</a>
 					·
 					<a href="https://github.com/YHLee89/teamblog">About</a>
 					·
@@ -12,3 +12,13 @@
 
 				<p>Company Name &copy; 2015</p>
 			</div>
+
+
+			<script>
+			var total_height = $(window).height()
+			var document_height = $('.blog-masthead').height() + $('#content').height()
+			if (total_height>=document_height && $('.add-entry').height()==null){
+				var footer_elem = document.getElementById('footer');
+				footer_elem.style.position = "fixed";
+			}
+			</script>
