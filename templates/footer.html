@@ -17,7 +17,7 @@
 			<script>
 			var total_height = $(window).height()
 			var document_height = $('.blog-masthead').height() + $('#content').height()
-			if (total_height>=document_height && $('.add-entry').height()==null){
+			if (total_height>=document_height && $('.add-entry').height()==null && $('.edit-entry').height()==null){
 				var footer_elem = document.getElementById('footer');
 				footer_elem.style.position = "fixed";
 			}
