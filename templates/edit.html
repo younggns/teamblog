@@ -5,11 +5,11 @@
     <form action="{{ url_for('edit', id=post.id) }}" method='post' class='edit-entry'>
       <dl>
         <dt>Title:
-        <dd><input type=text size=30 name=title, value="{{ request.form.get('title', post.title) }}">
+        <dd><input type=text size=30 name="title", value="{{ post.title }}">
         <br>
         <br>
         <dt>Text:
-        <dd><textarea name=text id="ckeditor" rows=5 cols=40> {{ request.form.get('text', post.text )}}</textarea>
+        <dd><textarea name="text" id="ckeditor" rows=5 cols=40> {{ post.text }}</textarea>
           <script>CKEDITOR.replace( 'ckeditor' );
 
           </script>
@@ -18,7 +18,7 @@
           <dd><select name="category" required>
             <option value="#7B7B7B">Gray</option>
             <option value="#FF3C3C">Red</option>
-            <option value="#FFAB3C">Oragne</option>
+            <option value="#FFAB3C">Orange</option>
             <option value="#F6FF3C">Yellow</option>
             <option value="#3CFF3C">Green</option>
             <option value="#3C5DFF">Blue</option>
