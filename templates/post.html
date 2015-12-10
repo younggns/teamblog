@@ -100,11 +100,34 @@
   }
 
   var post_text = {{ post.text|tojson|safe }};
-  var curr_hash_list = findHashtags2( post_text );
-  post_text = post_text.replace("_", " ");
-  post_text = post_text.replace(">", "> ");
-  post_text = post_text.replace("</", " </");
-  var post_word_list = post_text.split(" ");
+  var div = document.createElement("div");
+  div.innerHTML = post_text;
+  //var new_post_text = div.textContent || div.innerText || "";
+  var text_div_line = div.getElementsByTagName("p");
+  var total_line = text_div_line.length;
+  var curr_hash_list = []
+  for(var k=0;k<total_line;k++) {
+    // var mock_div = document.createElement("div");
+    // mock_div.innerHTML = text_div_line[k];
+    // var new_post_text = mock_div.textContent || mock_div.innerText || "";
+    var new_post_text = text_div_line[k].innerHTML;
+    var line_hash = findHashtags2( new_post_text );
+    var line_hash_len = line_hash.length;
+    for(var l=0;l<line_hash_len;l++){
+      curr_hash_list.push(line_hash[l]);
+    }
+  }
+  //var curr_hash_list = findHashtags2( new_post_text );
+  // var post_word_list = new_post_text.split(" ");
+  var post_word_list = []
+  for(var m=0;m<total_line;m++){
+    post_word_list.push("<p>");
+    text_list = text_div_line[m].innerHTML.split(" ");
+    for(var n=0;n<text_list.length;n++){
+      post_word_list.push(text_list[n]);
+    }
+    post_word_list.push("</p>");
+  }
   var curr_uri = window.location.protocol + "//" + window.location.host + "/post/";
   if (curr_hash_list.length==0) {
     document.getElementById('main-content').innerHTML = post_text;
