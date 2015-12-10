@@ -7,7 +7,8 @@
         <div class="blog-post">
               <h3 class="blog-post-title">{{ post.title }}</h3><hr>
               <p class="blog-post-meta">{{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
-              <p>{{ post.text|safe }}</p>
+              <p id="main-content"></p>
+              <p id="referred-by"></p>
         </div>
 <hr>
   <div id="post-graph-container">
@@ -75,6 +76,79 @@
       return false;
     }
   }
+
+  function findHashtags2(searchText){
+    var regexp = /\B\#\w\w+\b/g
+    var result = searchText.match(regexp);
+    result_list = [];
+    if (result) {
+      var num_of_hashtags = result.length;
+      for(var i=0;i<num_of_hashtags;i++) {
+        var word_length = result[i].length;
+        var hash_content = result[i];
+        {% for entry in entries %}
+        if ( "{{ entry.title }}" == hash_content.substring(1, word_length)) {
+          result_list.push(hash_content);
+        }
+        {% endfor %}
+      }
+      return result_list
+    }
+    else {
+      return result_list;
+    }
+  }
+
+  var post_text = {{ post.text|tojson|safe }};
+  var curr_hash_list = findHashtags2( post_text );
+  post_text = post_text.replace("_", " ");
+  post_text = post_text.replace(">", "> ");
+  post_text = post_text.replace("</", " </");
+  var post_word_list = post_text.split(" ");
+  var curr_uri = window.location.protocol + "//" + window.location.host + "/post/";
+  if (curr_hash_list.length==0) {
+    document.getElementById('main-content').innerHTML = post_text;
+  }
+  else {
+    var num_of_hash = curr_hash_list.length;
+    for(var i=0;i<num_of_hash;i++){
+      var target_id = 0;
+      {% for entry in entries %}
+        if("{{entry.title}}"==curr_hash_list[i].substring(1, curr_hash_list[i].length)) {
+          target_id = {{entry.id}};
+        }
+      {% endfor %}
+      var num_of_words = post_word_list.length;
+      for(var j=0;j<num_of_words;j++) {
+        if(post_word_list[j]==curr_hash_list[i]) {
+          post_word_list[j] = '<a href="'+curr_uri+target_id+'">'
+          +curr_hash_list[i].substring(1, curr_hash_list[i].length)+'</a>';
+        }
+      }
+    }
+    var new_post = post_word_list.join(" ");
+    document.getElementById('main-content').innerHTML = new_post;
+  }
+
+  {% for entry in entries %}
+    var hash_list = findHashtags( {{ entry.text|tojson|safe }} );
+    if (hash_list.length>0) {
+      var num_of_hashtags = hash_list.length;
+      for(var i=0;i<num_of_hashtags;i++) {
+        if ("{{post.title}}"==hash_list[i]) {
+          if(document.getElementById('referred-by').innerHTML=="") {
+            document.getElementById('referred-by').innerHTML =
+            '<br><hr><h4>Referred by</h4> <a href="'+curr_uri+{{entry.id}}+'">'+"{{entry.title}}"+'</a>';
+          }
+          else {
+            document.getElementById('referred-by').innerHTML +=
+            '<br><a href="'+curr_uri+{{entry.id}}+'">'+"{{entry.title}}"+'</a>';
+          }
+        }
+      }
+    }
+  {% endfor %}
+
 
   //Making links based on hashtags
   var links = [];
