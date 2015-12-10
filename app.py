@@ -116,14 +116,14 @@ def edit(id):
         return redirect(url_for('login'))
     post = Post.query.get_or_404(id)
     if request.method == 'POST':
-        if request.form.get('title') and request.form.get('text'):
-            post.title = request.form['title']
-            post.text = request.form['text']
-            post.cateogry = request.form['category']
-            db.session.add(post)
-            db.session.commit(post)
-            flask('Entry was successfully edited')
-            return redirect(url_for('default'))
+        post.title = request.form['title']
+        post.text = request.form['text']
+        post.category = request.form['category']
+        # flash(request.form.get('title'))
+        # flash(post.title)
+            #return redirect('/')
+        flash("Entry was successfully edited.")
+        return redirect(url_for('post', id=post.id))
     return render_template('edit.html', name="edit", post=post)
 
 '''delete a post if admin is logged in'''
@@ -165,7 +165,7 @@ def contact():
   form2 = ContactForm()
 
   if request.method == 'POST':
-  	msg = Message("Hello From Flask", sender=request.form.get('email'), recipients=["younggns@umich.edu"])
+  	msg = Message(form.subject.data, sender=request.form.get('email'), recipients=["younggns@umich.edu"])
   	msg2 = Message("The mail has been successfully sent", sender="younggns@umich.edu", recipients=[request.form.get('email')])
   	mail.send(msg)
   	mail.send(msg2)
@@ -184,4 +184,4 @@ def pageNotFound(e):
     return render_template('500.html'), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
